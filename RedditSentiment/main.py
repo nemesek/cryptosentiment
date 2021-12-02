@@ -108,4 +108,5 @@ gc.get_sopr()
 gc.get_active_addresses()
 gc.get_futures_funding_rate()
 # twitter_client.tweet_something()
+# just testing something
 
