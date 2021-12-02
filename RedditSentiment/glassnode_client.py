@@ -19,7 +19,7 @@ def get_sopr():
     week_ago = __get_time__(7)
     print(week_ago)
     res = requests.get('https://api.glassnode.com/v1/metrics/indicators/sopr',
-        params={'a': 'BTC', 'api_key': config.glassnode_api_key, 's': week_ago}, verify=False)
+        params={'a': 'BTC', 'api_key': config.glassnode_api_key, 's': week_ago}, verify=True)
     # convert to pandas dataframe
     sopr_df = pd.read_json(res.text, convert_dates=['t'])
     print(sopr_df)
@@ -31,7 +31,7 @@ def get_active_addresses():
     print(yesterday)
     # make API request
     res = requests.get('https://api.glassnode.com/v1/metrics/addresses/active_count',
-        params={'a': 'BTC', 'api_key': config.glassnode_api_key, 'i':'1h', 's':yesterday }, verify=False)
+        params={'a': 'BTC', 'api_key': config.glassnode_api_key, 'i':'1h', 's':yesterday }, verify=True)
 
     print(res.status_code)
 
@@ -51,7 +51,7 @@ def get_futures_funding_rate():
     print(duration)
     # make API request
     res = requests.get('https://api.glassnode.com/v1/metrics/derivatives/futures_funding_rate_perpetual_all',
-        params={'a': 'BTC', 'api_key': config.glassnode_api_key, 'i':'24h', 's':duration }, verify=False)
+        params={'a': 'BTC', 'api_key': config.glassnode_api_key, 'i':'24h', 's':duration }, verify=True)
 
     print(res.status_code)
 
