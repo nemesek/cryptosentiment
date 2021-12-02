@@ -8,8 +8,8 @@ def get_posts():
 
     # here we pass our login method (password), username, and password
     data = {'grant_type': 'password',
-            'username': 'misterblonde',
-            'password': 'aNqe5$!CEH3sn!Rc'}
+            'username': config.reddit_username,
+            'password': config.reddit_password}
 
     # setup our header info, which gives reddit a brief description of our app
     headers = {'User-Agent': 'MyBot/0.0.1'}

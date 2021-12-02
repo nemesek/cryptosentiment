@@ -7,6 +7,7 @@ from itertools import chain
 import inspect
 import glassnode_client as gc
 import config
+import twitter_client
 #from messari.messari import Messari
 #from messari.timeseries import get_metric_timeseries
 
@@ -106,4 +107,5 @@ messari_test()
 gc.get_sopr()
 gc.get_active_addresses()
 gc.get_futures_funding_rate()
+twitter_client.tweet_something()
 
