@@ -103,9 +103,9 @@ def filter_cryptos(sentence_list):
 # comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
 # print('about to reduce')
 # print(reduce_counts(title_counts, comment_counts))
-messari_test()
+#messari_test()
 gc.get_sopr()
 gc.get_active_addresses()
 gc.get_futures_funding_rate()
-twitter_client.tweet_something()
+# twitter_client.tweet_something()
 
