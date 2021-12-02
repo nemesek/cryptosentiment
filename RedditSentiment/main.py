@@ -1,5 +1,5 @@
 import enum
-import wordcounter, reddit_oauth, pandas as pd
+import wordcounter, pandas as pd
 import reddit_client as rc
 #import messari.messari as Messari
 from messari.messari import Messari
