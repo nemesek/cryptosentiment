@@ -1,33 +1,17 @@
 import enum
 import wordcounter, pandas as pd
 import reddit_client as rc
-#import messari.messari as Messari
-from messari.messari import Messari
 from itertools import chain
 import inspect
 import glassnode_client as gc
 import config
 import twitter_client
+import messari_client as mc
 #from messari.messari import Messari
 #from messari.timeseries import get_metric_timeseries
 
 
-def messari_test():
-    #  m = Messari(config.messari_api_key)
-    #  baz = inspect.getmembers(m, inspect.isfunction)
-    #  print(baz)
-    #  print(m)
-    #  assets = ['btc', 'eth']
-    #  metric = 'price'
-    #  start = '2020-06-01'
-    #  end = '2021-01-01'
-    #  print('yo2')
-     #timeseries_df = m.get_metric_timeseries(asset_slugs=assets, asset_metric=metric, start=start, end=end)
-     #print(timeseries_df)
-     m = Messari(config.messari_api_key)
-     response_data_df = m.get_all_assets(asset_fields=['metrics'], to_dataframe=True)
-     head = response_data_df.head()
-     print(head)
+
 
 def build_permutations(list):
     permutated_list = []
@@ -93,20 +77,21 @@ def filter_cryptos(sentence_list):
                 return_list.append(lower_case_word)
     return return_list
 
-# titles_and_comments = rc.get_posts()
-# titles = titles_and_comments[0]
-# comments = titles_and_comments[-1]
+titles_and_comments = rc.get_posts()
+titles = titles_and_comments[0]
+comments = titles_and_comments[-1]
 
-# cryptos_in_titles = filter_cryptos(titles)
-# cryptos_in_comments = filter_cryptos(comments)
-# title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
-# comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
-# print('about to reduce')
-# print(reduce_counts(title_counts, comment_counts))
+cryptos_in_titles = filter_cryptos(titles)
+cryptos_in_comments = filter_cryptos(comments)
+title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
+comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
+print('about to reduce')
+print(reduce_counts(title_counts, comment_counts))
 #messari_test()
+mc.get_all_assets()
 gc.get_sopr()
 gc.get_active_addresses()
 gc.get_futures_funding_rate()
-# twitter_client.tweet_something()
+twitter_client.tweet_something()
 # just testing something
 
