@@ -73,22 +73,23 @@ def filter_cryptos(sentence_list):
     return return_list
 
 # reddit stuff
-titles_and_comments = rc.get_posts()
-titles = titles_and_comments[0]
-comments = titles_and_comments[-1]
+# titles_and_comments = rc.get_posts()
+# titles = titles_and_comments[0]
+# comments = titles_and_comments[-1]
 
-cryptos_in_titles = filter_cryptos(titles)
-cryptos_in_comments = filter_cryptos(comments)
-title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
-comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
-print('about to reduce')
-print(reduce_counts(title_counts, comment_counts))
+# cryptos_in_titles = filter_cryptos(titles)
+# cryptos_in_comments = filter_cryptos(comments)
+# title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
+# comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
+# print('about to reduce')
+# print(reduce_counts(title_counts, comment_counts))
 # done with reddit stuff
 # messari and glass node
 mc.get_all_assets()
 gc.get_sopr()
 gc.get_active_addresses()
 gc.get_futures_funding_rate()
+gc.get_coin_days_destroyed()
 #twitter_client.tweet_something()
 # just testing something
 
