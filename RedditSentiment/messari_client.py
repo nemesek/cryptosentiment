@@ -10,7 +10,16 @@ def process_messari_data():
     __get_all_assets(m)
     __get_metric_timeseries(m)
     __get_news()
-    # __get_asset_news()
+    __get_asset_news()
+    __get_asset_metrics(m)
+
+def __get_asset_metrics(m):
+    print('asset metrics')
+    assets = ['btc', 'eth']
+    df = m.get_asset_metrics(asset_slugs=assets)
+    for i,j in df.iterrows():
+        print(i,j)
+    return
 
 def __get_all_assets(m):
     print('Current pricing')
@@ -36,18 +45,20 @@ def __get_news():
         news_list = news['data']
         for item in news_list:
             print('title: ' + item['title'] + ' ****Tags**** : ' + ', '.join(item['tags']))
-            # #print(item['tags'])
         return
 
     print("Error: " + either[1])
 
 def __get_asset_news():
     print('Getting news for asset')
-    either = __get_response('https://data.messari.io/api/v1/news/btc')
+    either = __get_response('https://data.messari.io/api/v1/news/bitcoin')
     if either[0] == True:
         res = either[1]
         news = json.loads(res.text)
         news_list = news['data']
+        if news_list == None:
+            print('nada')
+            return
         for a in news_list:
             print(a)
         return
