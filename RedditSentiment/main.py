@@ -73,25 +73,29 @@ def filter_cryptos(sentence_list):
     return return_list
 
 ## reddit stuff
-titles_and_comments = rc.get_posts()
-titles = titles_and_comments[0]
-comments = titles_and_comments[-1]
+# titles_and_comments = rc.get_posts()
+# titles = titles_and_comments[0]
+# comments = titles_and_comments[-1]
 
-cryptos_in_titles = filter_cryptos(titles)
-cryptos_in_comments = filter_cryptos(comments)
-title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
-print('title count')
-print(reduce_count(title_counts))
-comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
-print('comment count')
-print(reduce_count(comment_counts))
+# cryptos_in_titles = filter_cryptos(titles)
+# cryptos_in_comments = filter_cryptos(comments)
+# title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
+# print('title count')
+# print(reduce_count(title_counts))
+# comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
+# print('comment count')
+# print(reduce_count(comment_counts))
 ## done with reddit stuff
 # #messari and glass node
 mc.get_all_assets()
-gc.get_sopr()
-gc.get_active_addresses()
-gc.get_futures_funding_rate()
-gc.get_coin_days_destroyed('btc')
-gc.get_coin_days_destroyed('eth')
+# gc.get_sopr('btc')
+# gc.get_sopr('eth')
+gc.get_active_addresses('btc')
+gc.get_active_addresses('eth')
+# gc.get_futures_funding_rate()
+# gc.get_coin_days_destroyed('btc')
+# gc.get_coin_days_destroyed('eth')
+# gc.get_mvrv_info('btc')
+# gc.get_mvrv_info('eth')
 #twitter_client.tweet_something()
 
