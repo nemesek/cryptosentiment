@@ -89,7 +89,8 @@ mc.get_all_assets()
 gc.get_sopr()
 gc.get_active_addresses()
 gc.get_futures_funding_rate()
-gc.get_coin_days_destroyed()
+gc.get_coin_days_destroyed('btc')
+gc.get_coin_days_destroyed('eth')
 #twitter_client.tweet_something()
 # just testing something
 

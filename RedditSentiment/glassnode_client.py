@@ -64,14 +64,14 @@ def get_futures_funding_rate():
     aa_df = pd.read_json(res.text, convert_dates=['t'])
     print(aa_df)
 
-def get_coin_days_destroyed():
+def get_coin_days_destroyed(asset):
 
     duration = __get_time__(30)
-    print('*************getting coin days destroyed**************')
+    print('*************getting ' + asset + ' coin days destroyed**************')
     print(duration)
     # make API request
     res = requests.get('https://api.glassnode.com/v1/metrics/indicators/cdd',
-        params={'a': 'BTC', 'api_key': config.glassnode_api_key, 'i':'24h', 's':duration }, verify=verify_cert)
+        params={'a': asset, 'api_key': config.glassnode_api_key, 'i':'24h', 's':duration }, verify=verify_cert)
 
     print(res.status_code)
 
