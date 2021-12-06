@@ -1,0 +1,6 @@
+praw
+pandas
+git+https://github.com/messari/messari-python-api.git
+requests
+tweepy
+asyncio

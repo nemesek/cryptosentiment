@@ -10,7 +10,7 @@ def get_posts():
 
     submission_titles = []
     submission_comments = []
-    for submission in reddit.subreddit("cryptocurrency").hot(limit=25):
+    for submission in reddit.subreddit("cryptocurrency").hot(limit=10):
         submission_titles.append(submission.title)
         for comment in submission.comments.list():
             if not hasattr(comment, 'body'):

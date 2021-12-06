@@ -1,11 +1,12 @@
 import json
 import requests
+import asyncio
 import pandas as pd
 import time 
 # insert your API key here
 import config
 
-verify_cert = False
+verify_cert = config.require_ssl_cert
 
 def __get_time__(numDays):
     now = (int)(time.time())

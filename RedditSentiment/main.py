@@ -7,11 +7,6 @@ import glassnode_client as gc
 import config
 import twitter_client
 import messari_client as mc
-#from messari.messari import Messari
-#from messari.timeseries import get_metric_timeseries
-
-
-
 
 def build_permutations(list):
     permutated_list = []
@@ -77,6 +72,7 @@ def filter_cryptos(sentence_list):
                 return_list.append(lower_case_word)
     return return_list
 
+# reddit stuff
 titles_and_comments = rc.get_posts()
 titles = titles_and_comments[0]
 comments = titles_and_comments[-1]
@@ -87,11 +83,12 @@ title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
 comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
 print('about to reduce')
 print(reduce_counts(title_counts, comment_counts))
-#messari_test()
+# done with reddit stuff
+# messari and glass node
 mc.get_all_assets()
 gc.get_sopr()
 gc.get_active_addresses()
 gc.get_futures_funding_rate()
-twitter_client.tweet_something()
+#twitter_client.tweet_something()
 # just testing something
 
