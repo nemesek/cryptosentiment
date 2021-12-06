@@ -42,20 +42,20 @@ cryptos_normalized = {
     "VXV": build_permutations(["vxv", "$vxv", "vectorspace"]),
 }
 
-def reduce_counts(dict1, dict2):
+
+def reduce_count(dict1):
     count_by_token = {key: 0 for key in cryptos_normalized}
     for k,v in dict1.items():
         for k2,v2 in cryptos_normalized.items():
             if k in v2:
                 count_by_token[k2] += v
-
-    for k,v in dict2.items():
-        for k2,v2 in cryptos_normalized.items():
-            if k in v2:
-                count_by_token[k2] += v
-
+    
+    filtered_count = {}
+    for k,v in count_by_token.items():
+        if v != 0:
+            filtered_count[k] = v
     # return count_by_token
-    sorted_orders = sorted(count_by_token.items(), key=lambda x: x[1], reverse=True)
+    sorted_orders = sorted(filtered_count.items(), key=lambda x: x[1], reverse=True)
     return sorted_orders
 
 
@@ -72,19 +72,21 @@ def filter_cryptos(sentence_list):
                 return_list.append(lower_case_word)
     return return_list
 
-# reddit stuff
-# titles_and_comments = rc.get_posts()
-# titles = titles_and_comments[0]
-# comments = titles_and_comments[-1]
+## reddit stuff
+titles_and_comments = rc.get_posts()
+titles = titles_and_comments[0]
+comments = titles_and_comments[-1]
 
-# cryptos_in_titles = filter_cryptos(titles)
-# cryptos_in_comments = filter_cryptos(comments)
-# title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
-# comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
-# print('about to reduce')
-# print(reduce_counts(title_counts, comment_counts))
-# done with reddit stuff
-# messari and glass node
+cryptos_in_titles = filter_cryptos(titles)
+cryptos_in_comments = filter_cryptos(comments)
+title_counts = wordcounter.get_frequency_count(cryptos_in_titles)
+print('title count')
+print(reduce_count(title_counts))
+comment_counts = wordcounter.get_frequency_count(cryptos_in_comments)
+print('comment count')
+print(reduce_count(comment_counts))
+## done with reddit stuff
+# #messari and glass node
 mc.get_all_assets()
 gc.get_sopr()
 gc.get_active_addresses()
@@ -92,5 +94,4 @@ gc.get_futures_funding_rate()
 gc.get_coin_days_destroyed('btc')
 gc.get_coin_days_destroyed('eth')
 #twitter_client.tweet_something()
-# just testing something
 
