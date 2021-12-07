@@ -18,6 +18,9 @@ def process_chain_data():
     __get_coin_days_destroyed('eth')
     __get_mvrv_info('btc')
     __get_mvrv_info('eth')
+    __get_exchange_net_position_change('btc')
+    __get_nvt_data('btc')
+    __get_nvt_data('eth')
 
 def __get_time(numDays):
     now = (int)(time.time())
@@ -80,3 +83,25 @@ def __get_mvrv_info(asset):
     if __check_status_code(res2) is True:
         mvrvz_df = pd.read_json(res2.text, convert_dates=['t'])
         print(mvrvz_df)
+
+def __get_exchange_net_position_change(asset):
+    duration = __get_time(30)
+    print('*************getting ' + asset + ' net exchange balance data**************')
+    res = __build_request(api='v1/metrics/distribution/exchange_net_position_change', asset=asset, duration=duration)
+    if __check_status_code(res) is True:
+        df = pd.read_json(res.text, convert_dates=['t'])
+        print(df)
+
+def __get_nvt_data(asset):
+    duration = __get_time(30)
+    print('*************getting ' + asset + ' nvt signal**************')
+    nvts_res = __build_request(api='v1/metrics/indicators/nvts', asset=asset, duration=duration)
+    if __check_status_code(nvts_res) is True:
+        df = pd.read_json(nvts_res.text, convert_dates=['t'])
+        print(df)
+
+    print('*************getting ' + asset + ' nvt ratio**************')
+    nvtr_res = __build_request(api='v1/metrics/indicators/nvt', asset=asset, duration=duration)
+    if __check_status_code(nvtr_res) is True:
+        df = pd.read_json(nvtr_res.text, convert_dates=['t'])
+        print(df)
