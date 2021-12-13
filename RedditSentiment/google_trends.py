@@ -2,17 +2,18 @@ import pandas as pd
 from pytrends.request import TrendReq
 
 def get_trends():
-    print('getting trends')
     pytrend = TrendReq()
-    kw_list = ["Blockchain", "Bitcoin", "Ethereum"]
+    kw_list = ["Bitcoin", "Ethereum"]
     pytrend.build_payload(kw_list, cat=0, timeframe='today 5-y', geo='', gprop='')
     related_queries = pytrend.related_queries()
+    print('****************related queires****************')
     print(related_queries.values())
     # Interest by Region
-    df_region = pytrend.interest_by_region()
-    print(df_region.head(10))
+    # df_region = pytrend.interest_by_region()
+    # print(df_region.head(10))
     # Get Google Hot Trends data
     # df_trending = pytrend.trending_searches(pn='united_states')
+    print('****************trending searches****************')
     df_trending = pytrend.trending_searches()
     print(df_trending.head(100))
     print('****************interest over time****************')
