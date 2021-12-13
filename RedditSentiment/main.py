@@ -6,6 +6,7 @@ import requests
 import request_helper as rh
 from datetime import datetime
 import json
+import google_trends as gt
 
 def __process_fear_and_greed_data(fg_dict):
     values = fg_dict["data"]
@@ -26,7 +27,7 @@ def __process_fear_and_greed_data(fg_dict):
     print("25 day simple average is {avg}".format(avg=simple_average))
     
 def __get_fear_and_greed():
-    api = 'https://api.alternative.me/fng/?limit=25'
+    api = 'https://api.alternative.me/fng/?limit=2'
     res = requests.get(api)
     if not rh.check_status_code(res):
         print('something wrong with fear and greed index')
@@ -40,8 +41,9 @@ def __get_fear_and_greed():
 #rc.process_sentiment()
 ## done with reddit stuff
 # #messari and glass node
-#mc.process_messari_data()
-#gc.process_chain_data()
+# mc.process_messari_data()
+# gc.process_chain_data()
 __get_fear_and_greed()
+gt.get_trends()
 #twitter_client.tweet_something()
 

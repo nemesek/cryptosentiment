@@ -1,7 +1,8 @@
 pip install git+https://github.com/messari/messari-python-api.git
 python -m pip install pandas
 pip install praw
-
+pip install pytrends
+https://github.com/Tanu-N-Prabhu/Python/blob/master/Google_Trends_API.ipynb
 
 pip install -r requirements.txt
 python -m venv .venv
