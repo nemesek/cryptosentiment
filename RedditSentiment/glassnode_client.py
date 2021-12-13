@@ -4,6 +4,7 @@ import asyncio
 import pandas as pd
 import time 
 import config
+import request_helper as rh
 
 verify_cert = config.require_ssl_cert
 
@@ -31,18 +32,11 @@ def __build_request(api, asset, duration, interval='24h'):
         res = requests.get('https://api.glassnode.com/' + api, params={'a': asset, 'api_key': config.glassnode_api_key, 'i':interval, 's':duration }, verify=verify_cert)
         return res
 
-def __check_status_code(res):
-        if (res.status_code != 200):
-            print (res.status_code)
-            print(res.reason)
-            return False
-        return True
-
 def __get_sopr(asset):
     print('*************getting ' + asset + ' sopr**************')
     week_ago = __get_time(7)
     res = __build_request(api='v1/metrics/indicators/sopr', asset=asset, duration=week_ago)    
-    if __check_status_code(res) is True:
+    if rh.check_status_code(res) is True:
         sopr_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
         print(sopr_df)
 
@@ -50,7 +44,7 @@ def __get_active_addresses(asset):
     yesterday = __get_time(1)
     print('*************getting ' + asset + ' active addresses**************')
     res = __build_request(api='v1/metrics/addresses/active_count', asset=asset, duration=yesterday, interval='1h')    
-    if __check_status_code(res) is True:
+    if rh.check_status_code(res) is True:
         aa_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
         print(aa_df)
 
@@ -58,7 +52,7 @@ def __get_futures_funding_rate():
     print('*************getting futures funding rates**************')
     duration = __get_time(30)
     res = __build_request(api='v1/metrics/derivatives/futures_funding_rate_perpetual_all', asset='BTC', duration=duration)    
-    if __check_status_code(res) is True:
+    if rh.check_status_code(res) is True:
         ffr_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
         print(ffr_df)
 
@@ -66,7 +60,7 @@ def __get_coin_days_destroyed(asset):
     print('*************getting ' + asset + ' coin days destroyed**************')
     duration = __get_time(30)
     res = __build_request(api='v1/metrics/indicators/cdd', asset=asset, duration=duration)    
-    if __check_status_code(res) is True:
+    if rh.check_status_code(res) is True:
         cdd_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
         print(cdd_df)
 
@@ -74,13 +68,13 @@ def __get_mvrv_info(asset):
     print('*************getting ' + asset + ' mvrv data**************')
     duration = __get_time(30)
     res1 = __build_request(api='v1/metrics/market/mvrv', asset=asset, duration=duration)
-    if __check_status_code(res1) is True:
+    if rh.check_status_code(res1) is True:
         mvrv_df = pd.read_json(res1.text, convert_dates=['t'])
         print(mvrv_df)
     
     print('*************getting ' + asset + ' mvrv z-score**************')
     res2 = __build_request(api='v1/metrics/market/mvrv_z_score', asset=asset, duration=duration)
-    if __check_status_code(res2) is True:
+    if rh.check_status_code(res2) is True:
         mvrvz_df = pd.read_json(res2.text, convert_dates=['t'])
         print(mvrvz_df)
 
@@ -88,7 +82,7 @@ def __get_exchange_net_position_change(asset):
     duration = __get_time(30)
     print('*************getting ' + asset + ' net exchange balance data**************')
     res = __build_request(api='v1/metrics/distribution/exchange_net_position_change', asset=asset, duration=duration)
-    if __check_status_code(res) is True:
+    if rh.check_status_code(res) is True:
         df = pd.read_json(res.text, convert_dates=['t'])
         print(df)
 
@@ -96,12 +90,12 @@ def __get_nvt_data(asset):
     duration = __get_time(30)
     print('*************getting ' + asset + ' nvt signal**************')
     nvts_res = __build_request(api='v1/metrics/indicators/nvts', asset=asset, duration=duration)
-    if __check_status_code(nvts_res) is True:
+    if rh.check_status_code(nvts_res) is True:
         df = pd.read_json(nvts_res.text, convert_dates=['t'])
         print(df)
 
     print('*************getting ' + asset + ' nvt ratio**************')
     nvtr_res = __build_request(api='v1/metrics/indicators/nvt', asset=asset, duration=duration)
-    if __check_status_code(nvtr_res) is True:
+    if rh.check_status_code(nvtr_res) is True:
         df = pd.read_json(nvtr_res.text, convert_dates=['t'])
         print(df)
