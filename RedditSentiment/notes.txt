@@ -3,6 +3,7 @@ python -m pip install pandas
 pip install praw
 pip install pytrends
 https://github.com/Tanu-N-Prabhu/Python/blob/master/Google_Trends_API.ipynb
+https://pypi.org/project/pytrends/
 
 pip install -r requirements.txt
 python -m venv .venv
