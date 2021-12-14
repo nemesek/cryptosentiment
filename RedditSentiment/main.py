@@ -41,9 +41,9 @@ def __get_fear_and_greed():
 #rc.process_sentiment()
 ## done with reddit stuff
 # #messari and glass node
-# mc.process_messari_data()
-# gc.process_chain_data()
-__get_fear_and_greed()
-gt.get_trends()
+#mc.process_messari_data() 
+gc.process_chain_data()
+#__get_fear_and_greed()
+#gt.get_trends()
 #twitter_client.tweet_something()
 

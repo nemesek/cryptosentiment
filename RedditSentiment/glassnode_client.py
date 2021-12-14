@@ -2,25 +2,27 @@ import json
 import requests
 import asyncio
 import pandas as pd
-import time 
+import time
+#from RedditSentiment.moving_average import moving_average 
 import config
 import request_helper as rh
+import moving_average as ma
 
 verify_cert = config.require_ssl_cert
 
 
 def process_chain_data():
-    __get_sopr('btc')
-    __get_sopr('eth')
-    __get_active_addresses('btc')
-    __get_active_addresses('eth')
-    __get_futures_funding_rate()
-    __get_coin_days_destroyed('btc')
-    __get_coin_days_destroyed('eth')
-    __get_mvrv_info('btc')
-    __get_mvrv_info('eth')
-    __get_exchange_net_position_change('btc')
-    __get_nvt_data('btc')
+    # __get_sopr('btc')
+    # __get_sopr('eth')
+    # __get_active_addresses('btc')
+    # __get_active_addresses('eth')
+    # __get_futures_funding_rate()
+    # __get_coin_days_destroyed('btc')
+    # __get_coin_days_destroyed('eth')
+    # __get_mvrv_info('btc')
+    # __get_mvrv_info('eth')
+    # __get_exchange_net_position_change('btc')
+    # __get_nvt_data('btc')
     __get_nvt_data('eth')
 
 def __get_time(numDays):
@@ -99,3 +101,18 @@ def __get_nvt_data(asset):
     if rh.check_status_code(nvtr_res) is True:
         df = pd.read_json(nvtr_res.text, convert_dates=['t'])
         print(df)
+        values = df.v.values  # df.v is a pandas.Series type
+        #nvt_ra = ma.rollavg_cumsum(values, len(values) - 1)
+        nvt_ma = ma.moving_average(values, 7)
+        
+        print(nvt_ma)
+        most_recent = values[-1:]
+        print('most recent is {mr}'.format(mr = most_recent))
+        # print(most_recent)
+        z = ma.compute_z_score(values, most_recent)
+        print('z-score for today: {z}'.format(z=z))
+        if abs(z) > 1:
+            print('sigma move')
+        else:
+            print('not a sigma move')
+        #print(nvt_ra)
