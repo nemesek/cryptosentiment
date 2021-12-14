@@ -17,9 +17,10 @@ def rollavg_cumsum(a,n):
 
 def compute_z_score(values, value_to_check):
     sigma = np.std(values)
-    mean = np.mean(values)
+    val = float(value_to_check)
+    mean = float(np.mean(values))
     # print(sigma)
     # print(mean)
-    z = (value_to_check - mean)/sigma
+    z = (val - mean)/sigma
     return z
     

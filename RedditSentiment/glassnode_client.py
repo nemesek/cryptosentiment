@@ -12,17 +12,17 @@ verify_cert = config.require_ssl_cert
 
 
 def process_chain_data():
-    # __get_sopr('btc')
-    # __get_sopr('eth')
-    # __get_active_addresses('btc')
-    # __get_active_addresses('eth')
-    # __get_futures_funding_rate()
-    # __get_coin_days_destroyed('btc')
-    # __get_coin_days_destroyed('eth')
-    # __get_mvrv_info('btc')
-    # __get_mvrv_info('eth')
-    # __get_exchange_net_position_change('btc')
-    # __get_nvt_data('btc')
+    __get_sopr('btc')
+    __get_sopr('eth')
+    __get_active_addresses('btc')
+    __get_active_addresses('eth')
+    __get_futures_funding_rate()
+    __get_coin_days_destroyed('btc')
+    __get_coin_days_destroyed('eth')
+    __get_mvrv_info('btc')
+    __get_mvrv_info('eth')
+    __get_exchange_net_position_change('btc')
+    __get_nvt_data('btc')
     __get_nvt_data('eth')
 
 def __get_time(numDays):
