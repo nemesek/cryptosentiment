@@ -38,7 +38,8 @@ def __get_sopr(asset):
     print('*************getting ' + asset + ' sopr**************')
     week_ago = __get_time(7)
     month_ago = __get_time(30)
-    res = __build_request(api='v1/metrics/indicators/sopr', asset=asset, duration=week_ago, interval='1h')    
+    today = __get_time(1)
+    res = __build_request(api='v1/metrics/indicators/sopr', asset=asset, duration=today, interval='1h')    
     if rh.check_status_code(res) is True:
         sopr_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
         print(sopr_df)
@@ -76,6 +77,27 @@ def __get_coin_days_destroyed(asset):
     if rh.check_status_code(res) is True:
         cdd_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
         print(cdd_df)
+        values = cdd_df.v.values  # df.v is a pandas.Series type
+        #nvt_ra = ma.rollavg_cumsum(values, len(values) - 1)
+        cdd_ma = ma.moving_average(values, 3)
+        
+        print(cdd_ma)
+        most_recent = values[-1:]
+        print('most recent is {mr}'.format(mr = most_recent))
+        # print(most_recent)
+        z = ma.compute_z_score(values, most_recent)
+        print('z-score for today: {z}'.format(z=z))
+        if abs(z) > 1:
+            print('sigma move')
+        else:
+            print('not a sigma move')
+        
+        latest = cdd_ma[len(cdd_ma) - 1]
+        second_to_last = cdd_ma[len(cdd_ma) - 2]
+        roc = ((latest - second_to_last)/second_to_last) * 100
+        print(asset + " CDD Moving Average Rate of change: {roc}".format(roc=roc))
+        if roc > 5 or roc < -5:
+            print('!!!!!YO something happened!!!!!')
 
 def __get_mvrv_info(asset):
     print('*************getting ' + asset + ' mvrv data**************')
