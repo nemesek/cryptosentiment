@@ -37,10 +37,21 @@ def __build_request(api, asset, duration, interval='24h'):
 def __get_sopr(asset):
     print('*************getting ' + asset + ' sopr**************')
     week_ago = __get_time(7)
-    res = __build_request(api='v1/metrics/indicators/sopr', asset=asset, duration=week_ago)    
+    month_ago = __get_time(30)
+    res = __build_request(api='v1/metrics/indicators/sopr', asset=asset, duration=week_ago, interval='1h')    
     if rh.check_status_code(res) is True:
         sopr_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
         print(sopr_df)
+        values = sopr_df.v.values  # df.v is a pandas.Series type
+        sopr_ma = ma.moving_average(values, 3)
+        print(sopr_ma)
+        latest = sopr_ma[len(sopr_ma) - 1]
+        second_to_last = sopr_ma[len(sopr_ma) - 2]
+        roc = abs((latest - second_to_last)/second_to_last) * 100
+        print("SOPR Rate of change: {roc}".format(roc=roc))
+        if roc > 5:
+            print('!!!!!YO something happened!!!!!')
+
 
 def __get_active_addresses(asset):
     yesterday = __get_time(1)
