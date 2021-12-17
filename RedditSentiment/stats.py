@@ -23,4 +23,5 @@ def compute_z_score(values, value_to_check):
     # print(mean)
     z = (val - mean)/sigma
     return z
+
     

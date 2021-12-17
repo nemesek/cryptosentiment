@@ -6,7 +6,7 @@ import time
 #from RedditSentiment.moving_average import moving_average 
 import config
 import request_helper as rh
-import moving_average as ma
+import stats as ma
 
 verify_cert = config.require_ssl_cert
 
