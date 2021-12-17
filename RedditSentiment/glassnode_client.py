@@ -1,4 +1,5 @@
 import json
+from os import stat
 import requests
 import asyncio
 import pandas as pd
@@ -6,7 +7,7 @@ import time
 #from RedditSentiment.moving_average import moving_average 
 import config
 import request_helper as rh
-import stats as ma
+import stats as stats
 
 verify_cert = config.require_ssl_cert
 
@@ -34,6 +35,11 @@ def __build_request(api, asset, duration, interval='24h'):
         res = requests.get('https://api.glassnode.com/' + api, params={'a': asset, 'api_key': config.glassnode_api_key, 'i':interval, 's':duration }, verify=verify_cert)
         return res
 
+def process_data_frame(df):
+    print(df)
+    values = df.v.values # df.v is a pandas.Series type
+    return (values, stats.moving_average(values, 3))
+
 def __get_sopr(asset):
     print('*************getting ' + asset + ' sopr**************')
     week_ago = __get_time(7)
@@ -42,13 +48,11 @@ def __get_sopr(asset):
     res = __build_request(api='v1/metrics/indicators/sopr', asset=asset, duration=today, interval='1h')    
     if rh.check_status_code(res) is True:
         sopr_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
-        print(sopr_df)
-        values = sopr_df.v.values  # df.v is a pandas.Series type
-        sopr_ma = ma.moving_average(values, 3)
+        sopr_ma  = process_data_frame(sopr_df)[1]
         print(sopr_ma)
         latest = sopr_ma[len(sopr_ma) - 1]
         second_to_last = sopr_ma[len(sopr_ma) - 2]
-        roc = abs((latest - second_to_last)/second_to_last) * 100
+        roc = stats.get_rate_of_change(second_to_last, latest)
         print("SOPR Rate of change: {roc}".format(roc=roc))
         if roc > 5:
             print('!!!!!YO something happened!!!!!')
@@ -76,25 +80,19 @@ def __get_coin_days_destroyed(asset):
     res = __build_request(api='v1/metrics/indicators/cdd', asset=asset, duration=duration)    
     if rh.check_status_code(res) is True:
         cdd_df = pd.read_json(res.text, convert_dates=['t'], dtype={"v": object})
-        print(cdd_df)
-        values = cdd_df.v.values  # df.v is a pandas.Series type
-        #nvt_ra = ma.rollavg_cumsum(values, len(values) - 1)
-        cdd_ma = ma.moving_average(values, 3)
-        
+        data = process_data_frame(cdd_df)
+        values = data[0]
+        cdd_ma = data[1]
         print(cdd_ma)
         most_recent = values[-1:]
         print('most recent is {mr}'.format(mr = most_recent))
-        # print(most_recent)
-        z = ma.compute_z_score(values, most_recent)
+        z = stats.compute_z_score(values, most_recent)
         print('z-score for today: {z}'.format(z=z))
-        if abs(z) > 1:
-            print('sigma move')
-        else:
-            print('not a sigma move')
-        
+        print('sigma move') if abs(z) > 1 else print ('not a sigma move')
         latest = cdd_ma[len(cdd_ma) - 1]
         second_to_last = cdd_ma[len(cdd_ma) - 2]
-        roc = ((latest - second_to_last)/second_to_last) * 100
+        
+        roc = stats.get_rate_of_change(second_to_last, latest)
         print(asset + " CDD Moving Average Rate of change: {roc}".format(roc=roc))
         if roc > 5 or roc < -5:
             print('!!!!!YO something happened!!!!!')
@@ -133,19 +131,12 @@ def __get_nvt_data(asset):
     nvtr_res = __build_request(api='v1/metrics/indicators/nvt', asset=asset, duration=duration)
     if rh.check_status_code(nvtr_res) is True:
         df = pd.read_json(nvtr_res.text, convert_dates=['t'])
-        print(df)
-        values = df.v.values  # df.v is a pandas.Series type
-        #nvt_ra = ma.rollavg_cumsum(values, len(values) - 1)
-        nvt_ma = ma.moving_average(values, 7)
-        
+        data = process_data_frame(df)
+        values = data[0]
+        nvt_ma = data[1]
         print(nvt_ma)
         most_recent = values[-1:]
         print('most recent is {mr}'.format(mr = most_recent))
-        # print(most_recent)
-        z = ma.compute_z_score(values, most_recent)
+        z = stats.compute_z_score(values, most_recent)
         print('z-score for today: {z}'.format(z=z))
-        if abs(z) > 1:
-            print('sigma move')
-        else:
-            print('not a sigma move')
-        #print(nvt_ra)
+        print('sigma move') if abs(z) > 1 else print ('not a sigma move')

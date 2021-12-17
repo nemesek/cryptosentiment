@@ -24,4 +24,7 @@ def compute_z_score(values, value_to_check):
     z = (val - mean)/sigma
     return z
 
+def get_rate_of_change(prior, current):
+    return abs((current - prior)/prior) * 100
+
     

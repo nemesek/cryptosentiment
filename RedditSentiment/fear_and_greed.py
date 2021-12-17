@@ -27,7 +27,6 @@ def get_fear_and_greed():
     score_values = list(map(lambda val: int(val["value"]), values)) 
     z_score = stats.compute_z_score(score_values, todays_score)
     print("fear and greed z-score {z}".format(z=z_score))
-    #mean = stats.compute_mean(score_values)
     num_days = len(score_values)
     mean = sum(score_values)/num_days
     print("{days} day mean is {avg}".format(days=num_days,avg=mean))

@@ -12,8 +12,8 @@ import fear_and_greed as fg
 ## done with reddit stuff
 # #messari and glass node
 #mc.process_messari_data() 
-#gc.process_chain_data()
-fg.get_fear_and_greed()
+gc.process_chain_data()
+#fg.get_fear_and_greed()
 #gt.get_trends()
 #twitter_client.tweet_something()
 
