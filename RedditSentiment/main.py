@@ -4,6 +4,7 @@ import twitter_client as tc
 import messari_client as mc
 import google_trends as gt
 import fear_and_greed as fg
+import fred
 
 
 
@@ -13,7 +14,8 @@ import fear_and_greed as fg
 # #messari and glass node
 #mc.process_messari_data() 
 gc.process_chain_data()
-#fg.get_fear_and_greed()
+fg.get_fear_and_greed()
+fred.get_categories()
 #gt.get_trends()
 #twitter_client.tweet_something()
 
